@@ -1,3 +1,8 @@
+numpy
 pandas
+geos
+pyproj
+shapely
+fiona
+GDAL
 geopandas
-
