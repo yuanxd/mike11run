@@ -1,6 +1,6 @@
 import codecs
 import os
-
+import time
 import geopandas
 import pandas as pd
 from shapely.geometry import Point
@@ -13,7 +13,7 @@ def convert_res11(res11_lok):
     nazwa = os.path.splitext(nazwa)[0]
     if "HDAdd" not in nazwa:
         # lokalizacja progframiku mike do konwersji res11
-        read11res_lok = "\"C:\\Program Files (x86)\\DHI\\2012\\bin\\RES11READ.exe\""
+        read11res_lok = "\"C:\\Program Files (x86)\\DHI\\2011\\bin\\RES11READ.exe\""
         # stworzenie folderu do zapisu wynikow
         lok_file = os.path.dirname(res11_lok)
         if not os.path.exists(lok_file + "\\GIS"):
@@ -100,6 +100,14 @@ def convert_res11(res11_lok):
             df = pd.DataFrame(data=df_xy)
             print(df.head())
 
+        # usuniecie powielen
+        df = df.drop_duplicates()
+        # usuniecie link channel
+        counts = df['River'].value_counts()
+        print(counts)
+        counts[counts > 2]
+        df = df[df['River'].isin(counts[counts > 3].index)]
+
         total_rows = df.shape[0]
         print("Ilosc wierszy: ")
         print(total_rows)
@@ -115,6 +123,7 @@ def convert_res11(res11_lok):
         m2 = pd.Series(data=m2)
         m3 = pd.Series(data=m3)
 
+
         koryto = df[['X', 'Y', 'H_elev', 'River', 'Chainage', ]]
         koryto['M'] = m2.values
 
@@ -128,7 +137,7 @@ def convert_res11(res11_lok):
         frames = [koryto, lewy, prawy]
 
         zbiorcza = pd.concat(frames)
-
+        zbiorcza = zbiorcza.sort_values(by=['River','Chainage','M'])
         writer = pd.ExcelWriter(res_lok + "\\" + nazwa + '.xlsx')
         zbiorcza.to_excel(writer, 'Sheet1')
         # df_left.to_excel(writer,'LewyBrzeg')
@@ -140,6 +149,14 @@ def convert_res11(res11_lok):
         zbiorcza = geopandas.GeoDataFrame(zbiorcza, geometry='geometry')
         zbiorcza.to_file(res_lok + "\\" + nazwa + '.shp', driver='ESRI Shapefile')
 
+        grouped = zbiorcza.groupby(['River'])
+        l_grouped = list(grouped)
+
+        #print(df1.head())
+        for river in range(len(list(counts)-1)):
+            df1 = l_grouped[river][1]
+            print(df1.head())
+            time.sleep(10)
     else:
         pass
     return 0
