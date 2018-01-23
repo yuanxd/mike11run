@@ -103,6 +103,8 @@ def convert_res11(res11_lok):
 
         # usuniecie powielen
         df = df.drop_duplicates()
+        # usuwanie przekroi o Type = 1 (nie wiadomo co to, wychodza obrocone)
+        df = df[df.Type != "1"]
         # usuniecie link channel
         counts = df['River'].value_counts()
         print(counts)
@@ -162,7 +164,7 @@ def convert_res11(res11_lok):
             df_poligon = df1[df1.M !="m2"]
             df_poligon = df_poligon.sort_values(by=['M','Chainage']).reset_index()
             print(df_poligon)
-            ring = ogr.Geometry(ogr.wkbLinearRing)
+
             lista_pkt=[]
             lista1_pkt=[]
             for index, row in df_poligon.iterrows():
