@@ -3,8 +3,9 @@ import os
 import time
 import geopandas
 import pandas as pd
-from shapely.geometry import Point
-
+from shapely.geometry import Point, Polygon
+import shapefile
+import numpy as np
 pd.options.mode.chained_assignment = None  # default='warn'
 
 
@@ -144,19 +145,48 @@ def convert_res11(res11_lok):
         # df_right.to_excel(writer,'PrawyBrzeg')
         writer.save()
         writer.close()
-
+        #podzial na zestawy dla rzek teras zalewowych
+        grouped = zbiorcza.groupby(['River'])
+        l_grouped = list(grouped)
+        #wydruk zbiorczego shp
         zbiorcza['geometry'] = zbiorcza.apply(lambda x: Point((float(x.X), float(x.Y))), axis=1)
         zbiorcza = geopandas.GeoDataFrame(zbiorcza, geometry='geometry')
         zbiorcza.to_file(res_lok + "\\" + nazwa + '.shp', driver='ESRI Shapefile')
 
-        grouped = zbiorcza.groupby(['River'])
-        l_grouped = list(grouped)
 
+        #przetwarzanie pojedynczych rzek: poligon i punkty
         #print(df1.head())
-        for river in range(len(list(counts)-1)):
+        from osgeo import ogr
+        for river in range(4):
             df1 = l_grouped[river][1]
-            print(df1.head())
-            time.sleep(10)
+            df_poligon = df1[df1.M !="m2"]
+            df_poligon = df_poligon.sort_values(by=['M','Chainage']).reset_index()
+            print(df_poligon)
+            ring = ogr.Geometry(ogr.wkbLinearRing)
+            lista_pkt=[]
+            lista1_pkt=[]
+            for index, row in df_poligon.iterrows():
+                print(row)
+                lista1_pkt.append(float(row['X']))
+                lista1_pkt.append(float(row['Y']))
+                lista_pkt.append(lista1_pkt)
+                lista1_pkt = []
+            print(lista_pkt)
+            polowa = int(len(lista_pkt)/2)
+
+            lista = lista_pkt[: polowa]
+            lista2 = lista_pkt[polowa :]
+            lista2.reverse()
+            pierwszy = lista_pkt[0]
+            lista_pkt = lista+lista2
+            lista_pkt.append(pierwszy)
+            print(lista_pkt)
+            w = shapefile.Writer(shapefile.POLYGON)
+            w.poly(parts=[lista_pkt])
+            w.field('FIRST_FLD', 'C', '40')
+            w.record('First', 'Polygon')
+            w.save('shapefiles/test/polygon_'+str(river))
+
     else:
         pass
     return 0
