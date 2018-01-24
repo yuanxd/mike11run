@@ -162,6 +162,7 @@ def convert_res11(res11_lok):
         for river in range(4):
             df1 = l_grouped[river][1]
             df_poligon = df1[df1.M !="m2"]
+            df_poligon.Chainage = df_poligon.Chainage.astype(float)
             df_poligon = df_poligon.sort_values(by=['M','Chainage']).reset_index()
             print(df_poligon)
 
