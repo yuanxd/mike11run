@@ -160,11 +160,30 @@ def convert_res11(res11_lok):
         #print(df1.head())
         from osgeo import ogr
         for river in range(4):
+
+            #pobieranie wartosci z podzielonego dataframe i tworzenie poligonu
             df1 = l_grouped[river][1]
             df_poligon = df1[df1.M !="m2"]
             df_poligon.Chainage = df_poligon.Chainage.astype(float)
             df_poligon = df_poligon.sort_values(by=['M','Chainage']).reset_index()
             print(df_poligon)
+            #pobranie nazwy rzeki
+            nazwa = df_poligon.get_value(0,'River')
+            #punkty z rzędnymi na cieku
+            df_riv_p = df1[df1.M !="m1"]
+            df_riv_p = df_riv_p[df_riv_p.M !="m3"]
+            df_riv_p = df_riv_p.sort_values(by=['Chainage']).reset_index()
+
+            #tworzenie folderu
+            if not os.path.exists(res_lok + "\\"+nazwa):
+                os.makedirs(res_lok + "\\"+nazwa)
+
+            res_lok_ri = res_lok + "\\"+nazwa
+
+            # zapis pkt do shp
+            df_riv_p['geometry'] = df_riv_p.apply(lambda x: Point((float(x.X), float(x.Y))), axis=1)
+            df_riv_p = geopandas.GeoDataFrame(df_riv_p, geometry='geometry')
+            df_riv_p.to_file(res_lok_ri + "\\" + nazwa + '.shp', driver='ESRI Shapefile')
 
             lista_pkt=[]
             lista1_pkt=[]
@@ -188,8 +207,8 @@ def convert_res11(res11_lok):
             w.poly(parts=[lista_pkt])
             w.field('FIRST_FLD', 'C', '40')
             w.record('First', 'Polygon')
-            w.save('shapefiles/test/polygon_'+str(river))
-
+            w.save(res_lok_ri+"\\"+"polygon_"+str(nazwa))
+            print(res_lok_ri)
     else:
         pass
     return 0
