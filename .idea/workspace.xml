@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a7ebeeb5-7814-476b-a85b-033e8ba07bae" name="Default" comment="Dodanie wariantu dla modeli m21">
+    <list default="true" id="a7ebeeb5-7814-476b-a85b-033e8ba07bae" name="Default" comment="">
       <change afterPath="$PROJECT_DIR$/clip_gdal.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/krieging_mike.py" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/linia_add_point.py" afterDir="false" />
@@ -1509,11 +1509,8 @@
       <file leaf-file-name="strefy_from xlsx.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/strefy_from xlsx.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="280">
-              <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-              <folding>
-                <element signature="e#0#11#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="200">
+              <caret line="10" column="27" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
             </state>
           </provider>
         </entry>
@@ -1769,7 +1766,14 @@
       <option name="project" value="LOCAL" />
       <updated>1513804396467</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="robienie tifa z markerow -&gt; res11 na xlsx -&gt; xlsx na tif">
+      <created>1531999243630</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1531999243630</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -1833,7 +1837,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Usuniecie zbednego importu, test synchronizacji" />
     <MESSAGE value="Dodanie wariantu dla modeli m21" />
-    <option name="LAST_COMMIT_MESSAGE" value="Dodanie wariantu dla modeli m21" />
+    <MESSAGE value="robienie tifa z markerow -&gt; res11 na xlsx -&gt; xlsx na tif" />
+    <option name="LAST_COMMIT_MESSAGE" value="robienie tifa z markerow -&gt; res11 na xlsx -&gt; xlsx na tif" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -2151,11 +2156,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/strefy_from xlsx.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="280">
-          <caret line="14" column="19" selection-start-line="14" selection-start-column="19" selection-end-line="14" selection-end-column="19" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="200">
+          <caret line="10" column="27" lean-forward="true" selection-start-line="10" selection-start-column="27" selection-end-line="10" selection-end-column="27" />
         </state>
       </provider>
     </entry>
