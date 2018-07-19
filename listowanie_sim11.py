@@ -1,11 +1,6 @@
 import os
-from tkinter import filedialog
-from tkinter import *
-import tkinter.simpledialog
 
-# funkcje mike index najlepiej sobie zwinac w pycharmie i przejsc na koniec skryptu
-
-
+# function creates list of model simulation files and dictionary of result files defined in them
 def sim11_index_unite(path):
     #puste listy i liczniki na pliki typu mike
     sim11_L = []; res11_L = []
@@ -50,17 +45,9 @@ def sim11_index_unite(path):
     print(sim11_L)
     return (sim11_L, sim11res_d, res11_L)
 
-
-#path = "E:\\Robocze\\S03_NKL"
-
-#sim11_index_unite(path)
-
-
-
 def file_index(path, rozsz):
     #puste listy i liczniki na pliki typu mike
     lista = []
-
 
     for root, dirs, files in os.walk(path):
         for file in files:

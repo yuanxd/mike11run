@@ -1,8 +1,6 @@
 import os
 
-# funkcje mike index najlepiej sobie zwinac w pycharmie i przejsc na koniec skryptu
-
-
+# function creates list of model simulation files and dictionary of result files defined in them
 def m21_index_unite(path):
     #puste listy i liczniki na pliki typu mike
     m21_L = []; res_dfs = []
@@ -11,17 +9,17 @@ def m21_index_unite(path):
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.endswith(".m21"):
-                #print(file)
-                #dodanie sciezki pliku do listy
+
+                # add model simulation file to list
                 element = str(os.path.join(root, file))
                 element = element.replace("/", "\\")
                 m21_L.append(element)
-                #zaczytanie sciezki do pliku res11
+                # read path to res11 file from model simulation file
                 with open(element) as f:
                     lines = f.readlines()
                     index = lines.index("         [OUTPUT_AREA_1]\n")
                     sciezka = element.split("\\")
-                    #print((sciezka))
+
                     try:
                         hd_res = lines[index + 11].split("|")[1]
                         hd_res = hd_res.split("\\")
@@ -32,33 +30,19 @@ def m21_index_unite(path):
                     except:
                         hd_res = lines[index + 11].split("'")[1]
                         sciezka = sciezka[:-1]
-                        #print(sciezka)
                         hd_res = [hd_res]
-                        #print(hd_res)
                         sciezka = sciezka+hd_res
-                        #print(sciezka)
-
-                    #sciezka = sciezka + hd_res
+                    # add elements to result list and model - result dictionary
                     hd_res = "\\".join(sciezka)
                     m21res_d[element] = hd_res
                     res_dfs.append(hd_res)
                     #print(m21res_d)
 
-    #print(m21_L)
     return (m21_L, m21res_d, res_dfs)
 
-
-#path = "E:\\Robocze\\S03_NKL"
-
-#sim11_index_unite(path)
-
-
-
+# function list files in directory with specified ending
 def file_index(path, rozsz):
-    #puste listy i liczniki na pliki typu mike
     lista = []
-
-
     for root, dirs, files in os.walk(path):
         for file in files:
             if file.endswith("."+rozsz):
